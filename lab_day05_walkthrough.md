@@ -51,8 +51,6 @@ python src/setup_local_lab.py --mssv <MSSV_CỦA_BẠN> --prepare-only
 ```
 Sau khi chạy, file ảnh nhận diện sẽ được lưu tại `.lab-local/de-<A|B|C>-P1-P5.jpg`:
 
-![Ảnh nhận diện 5 đối tượng mẫu Đề A](./walkthrough_images/02_de_A_P1_P5.jpg)
-*Hình 1: Ảnh nhận diện 5 người đi bộ Đề A (P1: áo len đen trong shop Vodafone, P2: áo khoác đen quần kaki, P3: áo xanh kẻ, P4: áo xanh lam, P5: bé gái áo trắng).*
 
 ---
 
