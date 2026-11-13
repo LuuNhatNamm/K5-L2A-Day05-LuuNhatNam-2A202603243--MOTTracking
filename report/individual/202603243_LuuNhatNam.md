@@ -31,7 +31,7 @@ Số liệu lấy từ `src/check_submission.py` và `annotations.xml`. Các dò
 | Mã / ID trong bản xuất CVAT | Số keyframe | Keyframe ở frame | Số frame có mặt | Keyframe / 100 frame | Thời gian (phút) | Chỗ khó |
 |---|---|---|---|---|---|---|
 | Track 0 | 16 | 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149 | 150 | 10.7 |  | Có mặt ở frame 0–149. Cần bổ sung chỗ khó. |
-| Track 1 | 16 | 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 118, 119, 120, 130, 149 | 130 | 12.3 | Có mặt ở frame 10–138 và 149. Cần bổ sung chỗ khó. |
+| Track 1 | 16 | 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 118, 119, 120, 130, 149 | 130 | 12.3 | |Có mặt ở frame 10–138 và 149. Cần bổ sung chỗ khó. |
 | Track 2 | 18 | 28, 30, 38, 40, 48, 50, 58, 60, 68, 70, 78, 88, 98, 108, 119, 129, 139, 149 | 122 | 14.8 |  | Có mặt ở frame 28–149. Cần bổ sung chỗ khó. |
 | Track 3 | 2 | 139, 149 | 11 | 18.2 |  | Có mặt ở frame 139–149. Cần bổ sung chỗ khó. |
 | Track 4 | 1 | 145 | 5 | 20.0 |  | Có mặt ở frame 145–149. Cần bổ sung chỗ khó. |
