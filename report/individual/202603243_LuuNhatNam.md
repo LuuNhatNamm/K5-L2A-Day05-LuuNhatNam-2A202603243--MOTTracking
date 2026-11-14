@@ -26,50 +26,48 @@
 
 ## 2. Keyframe và thời gian (CP1, CP4)
 
-Số liệu lấy từ `src/check_submission.py` và `annotations.xml`. Các dòng ghi theo ID của bản xuất CVAT. Khi đối chiếu điểm nhận diện trong `src/lab_variants.json`, box Track 2 chứa điểm P3 tại frame 40 và box Track 1 chứa điểm P5 tại frame 28. Điểm nhận diện P1 (frame 0), P2 (frame 61) và P4 (frame 2) nằm ngoài mọi box hiện diện ở các frame đó. Cần mở bảng nhận diện đề C và rà lại đúng người trước khi chốt mã P1–P5.
+Số liệu lấy từ `src/check_submission.py` và `annotations.xml`. Cả 5 điểm nhận diện của đề C đều nằm trong một box ở frame mẫu tương ứng. ID trong CVAT for video và MOT được đối chiếu theo các frame có mặt.
 
-| Mã / ID trong bản xuất CVAT | Số keyframe | Keyframe ở frame | Số frame có mặt | Keyframe / 100 frame | Thời gian (phút) | Chỗ khó |
-|---|---|---|---|---|---|---|
-| Track 0 | 16 | 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149 | 150 | 10.7 |  | Có mặt ở frame 0–149. Cần bổ sung chỗ khó. |
-| Track 1 | 16 | 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 118, 119, 120, 130, 149 | 130 | 12.3 | |Có mặt ở frame 10–138 và 149. Cần bổ sung chỗ khó. |
-| Track 2 | 18 | 28, 30, 38, 40, 48, 50, 58, 60, 68, 70, 78, 88, 98, 108, 119, 129, 139, 149 | 122 | 14.8 |  | Có mặt ở frame 28–149. Cần bổ sung chỗ khó. |
-| Track 3 | 2 | 139, 149 | 11 | 18.2 |  | Có mặt ở frame 139–149. Cần bổ sung chỗ khó. |
-| Track 4 | 1 | 145 | 5 | 20.0 |  | Có mặt ở frame 145–149. Cần bổ sung chỗ khó. |
-| **Tổng** | **53** | | **418** | **12.7** | | |
+| Mã | ID CVAT / MOT | Số keyframe | Keyframe ở frame | Số frame có mặt | Keyframe / 100 frame | Thời gian (phút) | Chỗ khó |
+|---|---|---:|---|---:|---:|---|---|
+| P1 | 3 / 2 | 15 | 0, 10, 20, 30, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149 | 150 | 10.0 |  | Che một phần ở frame 30–59. |
+| P2 | 4 / 5 | 10 | 60, 70, 80, 90, 100, 110, 120, 130, 140, 149 | 90 | 11.1 |  | Che một phần ở frame 60–79 khi bước ra. |
+| P3 | 1 / 4 | 18 | 28, 30, 38, 40, 48, 50, 58, 60, 68, 70, 78, 88, 98, 108, 119, 129, 139, 149 | 122 | 14.8 |  | Thấy một phần ở mép phải lúc đầu. Bản xuất bắt đầu có box ở frame 28. |
+| P4 | 2 / 1 | 8 | 0, 10, 20, 30, 40, 50, 90, 100 | 110 | 7.3 |  | Che một phần ở frame 100–109, bật `outside` ở frame 110. |
+| P5 | 0 / 3 | 16 | 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 118, 119, 120, 130, 149 | 130 | 12.3 |  | Che một phần từ frame 118, khuất hẳn ở 139–148. Bản xuất bắt đầu có box ở frame 10. |
+| **Tổng** | | **67** | | **602** | **11,1** | | |
 
-Keyframe / 100 frame của cả bài = 53 ÷ 418 × 100 ≈ 12.7.
+Keyframe / 100 frame của cả bài = 67 ÷ 602 × 100 ≈ 11,1.
 
-Bạn đặt keyframe nhiều nhất ở người nào? Vì sao (người đó rẽ, dừng, lại gần camera hay bị che)?
-
-Track 2 có nhiều keyframe nhất (18). Cần bổ sung mã P tương ứng và lý do đặt keyframe.
+P3 có nhiều keyframe nhất (18), trong đó có các cặp mốc bật và tắt `occluded` ở đoạn 30–68. Cần bổ sung thời gian thực tế và lý do đặt các keyframe khi gán.
 
 ## 3. Đoạn bị che (CP2)
 
-Track 1 trong bản xuất CVAT (ID 2 trong MOT). Box của track này chứa điểm nhận diện P5 ở frame 28. Đây là số liệu của đoạn `outside` trong bản xuất hiện tại. Cần kiểm tra lại đoạn che của P1 vì CP2 yêu cầu thực hiện trên P1.
+CP2 yêu cầu theo dõi **P1** (ID 3 trong CVAT for video, ID 2 trong MOT). Các mốc dưới đây lấy từ bản xuất mới.
 
 | Mốc | Frame |
-|---|---:|
-| Bắt đầu bị che một phần (bật `occluded`) | 118 |
-| Mất hẳn (bật `outside`) | 139 |
-| Hiện lại (tắt `outside`) | 149 |
-| Thấy rõ trở lại (tắt `occluded`) | Cờ vẫn bật ở frame 149. Cần xem lại trên CVAT. |
+|---|---|
+| Bật `occluded` | 30 |
+| Bật `outside` khi mất hẳn | Cần rà lại đoạn 30–55. Bản xuất hiện có box xuyên suốt 0–149. |
+| Tắt `outside` khi hiện lại | Chưa có mốc trong bản xuất. |
+| Tắt `occluded` | 60 |
 
-- Thời gian khuất hẳn: 10 frame (139–148), khoảng 0,33 giây ở 30 fps.
-- Quyết định: Bản xuất giữ cùng ID khi hiện lại ở frame 149.
-- Lý do (trả lời 3 câu: khuất bao lâu so với 60 frame, ngoại hình có khớp, chỗ hiện lại có đúng hướng và tốc độ):
+P1 giữ cùng ID suốt đoạn 0–149. Cần xác nhận có khoảng khuất hẳn hay chỉ che một phần, rồi bổ sung thời gian khuất, lý do giữ ID và ba ảnh minh chứng của P1.
 
-Đoạn khuất 10 frame, dưới ngưỡng 60 frame. Cần bổ sung quan sát về ngoại hình, vị trí, hướng và tốc độ khi người này hiện lại.
+### Đoạn che của P5 trong bản xuất
 
-Ảnh hiện có của Track 1 (P5), sắp theo số frame CVAT. Cần bổ sung ảnh trước, giữa và sau đoạn che của P1 cho CP2.
+P5 là ID 0 trong CVAT for video, ID 3 trong MOT và hiện là PERSON 2 trên ảnh chụp. `Occluded` bật từ frame 118. `Outside` bật ở frame 139 và tắt ở frame 149 trên cùng track. Khoảng khuất hẳn là 10 frame (139–148), khoảng 0,33 giây ở 30 fps. Cờ `occluded` vẫn bật ở frame 149.
 
-![Frame 108 — P5 còn thấy trước đoạn che](images/che_3_sau.png)
-![Frame 121 — box P5 có cờ occluded](images/che_2_giua.png)
-![Frame 131 — P5 vẫn bị che một phần](images/che_1_truoc.png)
+Ba ảnh dưới đây minh họa P5 trước khi bật cờ và trong đoạn che một phần.
+
+![Frame 109 — P5 còn thấy trước đoạn che](images/che_1_truoc.png)
+![Frame 122 — P5 đang bị che, box nét đứt](images/che_2_giua.png)
+![Frame 130 — P5 đã lộ một phần, box vẫn có cờ occluded](images/che_3_sau.png)
 
 ## 4. Tự review ID (CP3)
 
 Lượt 1 theo người (đi ngược từ frame 149 về 0 trên CVAT), lượt 2 theo cảnh (nhảy 10 frame). Ít nhất 3 dòng; không có lỗi thì ghi một dòng "đã kiểm hai lượt, không lỗi".
-
+  đã kiểm hai lượt, không lỗi.
 Loại lỗi dùng đúng một trong 7 mã: `id_switch`, `fragmentation`, `lost`, `merge`, `false_track`, `drift`, `flag`.
 
 | Frame | Mã người | Loại lỗi | Mô tả một câu | Phát hiện ở lượt | Đã sửa? |
@@ -94,8 +92,8 @@ Lỗi nào chỉ lượt 2 (theo cảnh) mới thấy, lượt 1 (theo người)
 |---|---|
 | Tên file MOT 1.1 | `LuuNhatNam_mot.zip` (chỉ chứa tệp nhãn) |
 | Tên file CVAT for video 1.1 | `LuuNhatNam_cvat_video.zip` (chỉ chứa `annotations.xml`) |
-| Số track ID khác nhau trong `gt/gt.txt` (phải là 5) | 5 ID, 418 box |
-| Frame `outside` không có dòng trong `gt.txt` (đúng / sai) | Đúng. MOT ID 2 vắng ở frame MOT 140–149 (CVAT 139–148) và có mặt ở frame MOT 150 (CVAT 149). |
+| Số track ID khác nhau trong `gt/gt.txt` (phải là 5) | 5 ID, 602 box |
+| Frame `outside` không có dòng trong `gt.txt` (đúng / sai) | Đúng. P5 (MOT ID 3) vắng ở frame MOT 140–149 (CVAT 139–148), có mặt lại tại frame MOT 150 (CVAT 149). P4 (MOT ID 1) không có dòng từ frame MOT 111 đến hết đoạn. |
 | Job đã completed trên CVAT máy cá nhân | Có. Job #15, task đề C, trạng thái `completed` trên CVAT local. |
 
 Kết quả chạy `src/check_submission.py` trên hai ZIP trong repo.
@@ -104,32 +102,32 @@ Kết quả chạy `src/check_submission.py` trên hai ZIP trong repo.
 Số frame in theo CVAT (bắt đầu từ 0). Trong gt.txt, frame_id = frame CVAT + 1.
 
 === File MOT 1.1: LuuNhatNam_mot.zip ===
-  Số track ID: 5   |   Tổng số box: 418
+  Số track ID: 5   |   Tổng số box: 602
   [OK]        Đúng 5 track ID.
 
   Track | Frame có mặt | Số frame | Đoạn vắng (outside)
-      1 |   0–149      |      150 | -
-      2 |  10–149      |      130 | 139–148
-      3 |  28–149      |      122 | -
-      4 | 139–149      |       11 | -
-      5 | 145–149      |        5 | -
+      1 |   0–109      |      110 | -
+      2 |   0–149      |      150 | -
+      3 |  10–149      |      130 | 139–148
+      4 |  28–149      |      122 | -
+      5 |  60–149      |       90 | -
 
 
 === File CVAT for video 1.1: LuuNhatNam_cvat_video.zip ===
 
   Track | Nhãn   | Frame thấy | Keyframe | KF/100 frame | Frame occluded | Lần bật outside
-      0 | person |        150 |       16 |         10.7 |              0 |               0
-              Track 0: keyframe ở frame [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149]
-      1 | person |        130 |       16 |         12.3 |             22 |               1
-              Track 1: keyframe ở frame [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 118, 119, 120, 130, 149]
-      2 | person |        122 |       18 |         14.8 |             32 |               0
-              Track 2: keyframe ở frame [28, 30, 38, 40, 48, 50, 58, 60, 68, 70, 78, 88, 98, 108, 119, 129, 139, 149]
-      3 | person |         11 |        2 |         18.2 |              0 |               0
-              Track 3: keyframe ở frame [139, 149]
-      4 | person |          5 |        1 |         20.0 |              5 |               0
-              Track 4: keyframe ở frame [145]
+      0 | person |        130 |       16 |         12.3 |             22 |               1
+              Track 0: keyframe ở frame [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 118, 119, 120, 130, 149]
+      1 | person |        122 |       18 |         14.8 |             32 |               0
+              Track 1: keyframe ở frame [28, 30, 38, 40, 48, 50, 58, 60, 68, 70, 78, 88, 98, 108, 119, 129, 139, 149]
+      2 | person |        110 |        8 |          7.3 |             10 |               1
+              Track 2: keyframe ở frame [0, 10, 20, 30, 40, 50, 90, 100]
+      3 | person |        150 |       15 |         10.0 |             30 |               0
+              Track 3: keyframe ở frame [0, 10, 20, 30, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149]
+      4 | person |         90 |       10 |         11.1 |             20 |               0
+              Track 4: keyframe ở frame [60, 70, 80, 90, 100, 110, 120, 130, 140, 149]
 
-  Tổng: 53 keyframe / 418 frame có mặt = 12.7 keyframe / 100 frame
+  Tổng: 67 keyframe / 602 frame có mặt = 11.1 keyframe / 100 frame
   [OK]        Đọc được 5 track từ annotations.xml.
 
 === Tóm tắt ===
@@ -141,15 +139,15 @@ Số frame in theo CVAT (bắt đầu từ 0). Trong gt.txt, frame_id = frame CV
 
 1. Nếu được gán lại, bạn sẽ đặt keyframe khác ở đâu? Vì sao?
 
-   Xem frame 130–138 của Track 1. Nếu box bị trôi khi người bị che, thêm keyframe ngay tại frame bắt đầu lệch.
+   Xem frame 130–138 của P5 (ID 0 trong bản xuất CVAT). Nếu box bị trôi khi người bị che, thêm keyframe ngay tại frame bắt đầu lệch.
 
 2. Có chỗ nào bạn không chắc "cùng ID hay ID mới"? Bạn đã quyết định và ghi chú thế nào?
 
-   Track 1 khuất ở frame 139–148 và giữ ID khi hiện lại ở frame 149. Ghi mốc này và dấu hiệu bạn thấy để nhận ra cùng người, như trang phục hoặc hướng di chuyển.
+   P5 (ID 0 trong bản xuất CVAT) khuất ở frame 139–148 và giữ ID khi hiện lại ở frame 149. Ghi mốc này và dấu hiệu bạn thấy để nhận ra cùng người, như trang phục hoặc hướng di chuyển.
 
 3. Một lỗi ID trong job của bạn (nếu không còn sót, chọn lỗi đã sửa) có thể làm xe tự lái dự đoán sai chuyển động của người đó như thế nào? Lỗi đó ảnh hưởng MOTA hay IDF1 nhiều hơn?
 
-   Tôi không phát hiện lỗi ID khi rà soát. Giả sử Track 1 bị đổi ID ở frame 149, hệ thống có thể mất lịch sử quỹ đạo và dự đoán sai hướng hoặc tốc độ của người đó. Nếu ID sai kéo dài qua nhiều frame, IDF1 thường bị ảnh hưởng nhiều hơn MOTA.
+   Tôi không phát hiện lỗi ID khi rà soát. Giả sử P5 (ID 0 trong bản xuất CVAT) bị đổi ID ở frame 149, hệ thống có thể mất lịch sử quỹ đạo và dự đoán sai hướng hoặc tốc độ của người đó. Nếu ID sai kéo dài qua nhiều frame, IDF1 thường bị ảnh hưởng nhiều hơn MOTA.
 
 ## Bonus (nếu làm)
 
@@ -176,4 +174,4 @@ Số frame in theo CVAT (bắt đầu từ 0). Trong gt.txt, frame_id = frame CV
 ## 7. Tài liệu tham khảo và công cụ AI đã dùng
 
 - Dữ liệu và nguồn ảnh minh họa: MOT17, MOTChallenge (Milan et al., 2016). Giấy phép CC BY-NC-SA 3.0.
-- Codex .s
+- Codex hỗ trợ đối chiếu số liệu trong hai bản xuất, kết quả tự kiểm và chú thích ảnh minh chứng.
